@@ -23,66 +23,57 @@ namespace TestKostky_Smida
     {
 
         private DispatcherTimer timer;
-        private int cislo = 6;
+        private Kosticka[] kostky;
+        private Canvas[] kostkavCanvas;
+        private Random random;
 
-        public double X { get; private set; }
-        public double Y { get; private set; }
-        private int value = 5;
         public MainWindow()
         {
             InitializeComponent();
-            kostka(50, 50);
-            kostka(150, 50);
-            kostka(250, 50);
-            kostka(350, 50);
-            kostka(450, 50);
-            kostka(550, 50);
-            Bod(5, 10, 10);
-            for (int i = 0; i < 10; i++)
+
+            random = new Random();
+            kostky = new Kosticka[6];
+            kostkavCanvas = new Canvas[6];
+
+            for (int i = 0; i < 6; i++)
             {
-                Bod(5, 20, 20);
+                kostky[i] = new Kosticka();
+                kostkavCanvas[i] = new Canvas();
+                canva.Children.Add(kostkavCanvas[i]);
+                Canvas.SetLeft(kostkavCanvas[i], 50 + i * 100);
+                Canvas.SetTop(kostkavCanvas[i], 50);
+                kostky[i].Tecky(kostkavCanvas[i], 0, 0);
             }
-            Bod(5, 30, 30);
-            Bod(5, 10, 40);
-            Bod(5, 10, 30);
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += timertick;
+            timer.Tick += Timer_Tick;
         }
 
-        private void timertick(object? sender, EventArgs e)
+        private void Rolluj_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-        
-
-        public void kostka(double x, double y)
-        {
-            Rectangle rectangle = new Rectangle();
-            rectangle.Height = 80;
-            rectangle.Width = 80;
-            rectangle.Fill = Brushes.White;
-            rectangle.Stroke = Brushes.Black;
-
-            for (int i = 0; i < cislo; i++)
+            foreach (var kostka in kostky)
             {
-                Canvas.SetLeft(rectangle, x + 10);
-                Canvas.SetTop(rectangle, y + 10);
+                kostka.Hod();
             }
-            canva.Children.Add(rectangle);
-
+            updCanva();
         }
 
-        public void Bod(int value, double x, double y)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
-            Ellipse ellipse = new Ellipse();
-            ellipse.Width = 15;
-            ellipse.Height = 15;
-            ellipse.Stroke = Brushes.Black;
-            ellipse.Fill = Brushes.Black;
-            Canvas.SetLeft(ellipse, x + 30);
-            Canvas.SetTop(ellipse, y + 30);
-            canva.Children.Add(ellipse);
+            foreach (var kostka in kostky)
+            {
+                kostka.Hod();
+            }
+            updCanva();
+        }
+
+        private void updCanva()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                kostky[i].Tecky(kostkavCanvas[i], 0, 0);
+            }
         }
 
     }
