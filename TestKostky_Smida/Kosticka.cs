@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace TestKostky_Smida
 {
@@ -21,5 +23,23 @@ namespace TestKostky_Smida
         {
             Hod();
         }
+
+
+
+        public void Tecky(int value, Rectangle rectangle)
+        {
+            
+            for (int i = 0; i < value; i++)
+            {
+                Ellipse ellipse = new Ellipse()
+                {
+                    Height = 15,
+                    Width = 15,
+                    Fill = Brushes.Black
+                };
+            }
+        }
+
+
     }
 }
